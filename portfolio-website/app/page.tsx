@@ -105,8 +105,8 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
       
-      <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 md:left-auto md:right-0 md:transform-none z-50 p-4 md:p-6">
-  <div className="responsive-nav flex items-center space-x-2 sm:space-x-4 md:space-x-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full px-3 sm:px-4 md:px-6 py-2 md:py-3 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
+      <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 md:left-auto md:right-0 md:transform-none z-50 p-2 md:p-6 w-full max-w-sm md:max-w-none md:w-auto">
+  <div className="responsive-nav flex items-center justify-center space-x-1 sm:space-x-2 md:space-x-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full px-2 sm:px-3 md:px-6 py-1.5 md:py-3 shadow-lg border border-gray-200/50 dark:border-gray-700/50 mx-2 md:mx-0">
           {[
             { id: "skills", label: "Skills" },
             { id: "certificates", label: "Certificates" },
@@ -116,11 +116,16 @@ export default function Portfolio() {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`relative text-xs md:text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 px-1 md:px-2 ${
+              className={`relative text-[10px] sm:text-xs md:text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 px-0.5 sm:px-1 md:px-2 whitespace-nowrap ${
                 activeSection === item.id ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-300"
               }`}
             >
-              {item.label}
+              <span className="hidden sm:inline">{item.label}</span>
+              <span className="sm:hidden text-[9px]">
+                {item.id === "skills" ? "Skills" : 
+                 item.id === "certificates" ? "Certs" : 
+                 item.id === "hackathons" ? "Hack" : "Contact"}
+              </span>
               {activeSection === item.id && (
                 <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-400 rounded-full" />
               )}
@@ -130,7 +135,7 @@ export default function Portfolio() {
           {/* Dark Mode Toggle */}
           <button
             onClick={toggleDarkMode}
-            className="p-1.5 md:p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 group"
+            className="p-1 md:p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 group flex-shrink-0"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
