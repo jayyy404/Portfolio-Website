@@ -116,7 +116,7 @@ export default function Portfolio() {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`relative text-[10px] sm:text-xs md:text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 px-0.5 sm:px-1 md:px-2 whitespace-nowrap ${
+              className={`relative text-[120px] sm:text-xs md:text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 px-0.5 sm:px-1 md:px-2 whitespace-nowrap ${
                 activeSection === item.id ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-300"
               }`}
             >

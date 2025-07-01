@@ -3,8 +3,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Sapasap Portfolio',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  description: 'This is the portfolio of Sapasap, showcasing projects and skills.',
+  generator: 'Next.js',
 }
 
 export default function RootLayout({
