@@ -8,7 +8,7 @@ export default function Portfolio() {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
+
     const savedTheme = localStorage.getItem("theme")
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
@@ -105,8 +105,8 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
       
-      <nav className="fixed top-0 right-0 z-50 p-6">
-  <div className="responsive-nav flex items-center space-x-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
+      <nav className="fixed top-0 left-1/2 transform -translate-x-1/2 md:left-auto md:right-0 md:transform-none z-50 p-4 md:p-6">
+  <div className="responsive-nav flex items-center space-x-2 sm:space-x-4 md:space-x-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full px-3 sm:px-4 md:px-6 py-2 md:py-3 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
           {[
             { id: "skills", label: "Skills" },
             { id: "certificates", label: "Certificates" },
@@ -116,7 +116,7 @@ export default function Portfolio() {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`relative text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 ${
+              className={`relative text-xs md:text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 px-1 md:px-2 ${
                 activeSection === item.id ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-300"
               }`}
             >
@@ -130,13 +130,13 @@ export default function Portfolio() {
           {/* Dark Mode Toggle */}
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 group"
+            className="p-1.5 md:p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 group"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
-              <Sun className="w-4 h-4 text-yellow-500 group-hover:rotate-180 transition-transform duration-500" />
+              <Sun className="w-3 h-3 md:w-4 md:h-4 text-yellow-500 group-hover:rotate-180 transition-transform duration-500" />
             ) : (
-              <Moon className="w-4 h-4 text-gray-600 group-hover:rotate-12 transition-transform duration-300" />
+              <Moon className="w-3 h-3 md:w-4 md:h-4 text-gray-600 group-hover:rotate-12 transition-transform duration-300" />
             )}
           </button>
         </div>
@@ -145,7 +145,7 @@ export default function Portfolio() {
 
 <section
   id="home"
-  className="min-h-[60vh] sm:min-h-[85vh] flex flex-col items-center justify-center relative py-16 px-4 overflow-hidden"
+  className="min-h-[60vh] sm:min-h-[85vh] flex flex-col items-center justify-center relative py-16 px-4 overflow-hidden pt-24 md:pt-16"
 >
   {/* Background gradient */}
   <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-albaster to-gray-100
@@ -186,7 +186,7 @@ export default function Portfolio() {
   </div>
 
   {/* Bounce arrow */}
-  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
+  <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10 mt-8 md:mt-0">
     <div className="w-6 h-6 border-2 border-gray-400 dark:border-gray-500 rounded-full
                     flex items-center justify-center">
       <ChevronDown className="w-3 h-3 text-gray-400 dark:text-gray-500" />
