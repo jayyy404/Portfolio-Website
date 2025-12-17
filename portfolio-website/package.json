@@ -68,3 +68,18 @@
     "typescript": "^5"
   }
 }
+{
+  "name": "portfolio-website",
+  "version": "1.0",
+  "scripts": {
+    ...
+  },
+  "dependencies": {
+    ...
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  }
+}
