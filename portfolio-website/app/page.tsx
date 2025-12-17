@@ -94,7 +94,7 @@ export default function Portfolio() {
       link: "https://github.com/jayyy404/Corner-Detection",
     },
     {
-      title: "Sigequest",
+      title: "Sidequest",
       description:
         "A job listing and recruitment mobile app focused on small-scale and part time gigs.",
       tech: ["Flutter", "Dart", "Firebase"],
