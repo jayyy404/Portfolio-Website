@@ -63,42 +63,63 @@ export default function Portfolio() {
       description:
         "A centralized e-commerce app for students in the university.",
       tech: ["Dart", "Flutter", "Firebase", "Cloudinary"],
+      link: "https://github.com/jayyy404/west_select",
     },
     {
       title: "Object Detection System",
       description:
         "Basic AI-powered object detection model using Python and OpenCV.",
-      tech: ["Python"],
+      tech: ["Python", "OpenCV"],
+      link: "https://github.com/jayyy404/Object-Detection",
     },
     {
       title: "Personalized Health Coach",
       description:
         " A web-based health assistant app designed to provide personalized fitness and wellness recommendations. ",
       tech: ["Python", "Flask", "HTML", "CSS", "Gemini API"],
+      link: "https://github.com/jayyy404/Personalized-Health-Coach",
     },
     {
       title: "Portfolio Website",
       description:
         "A minimalistic portfolio website showcasing projects and achievements with smooth animations.",
-      tech: ["React", "Tailwind CSS", "Vercel"],
+      tech: ["Tyescript", "Tailwind CSS", "Vercel"],
+      link: "https://sapasapportfolio.vercel.app/",
     },
     {
       title: "Corner Detection System",
       description:
         " An image processing project that detects and highlights corner points in images.",
-      tech: ["Python"],
+      tech: ["Python", "OpenCV"],
+      link: "https://github.com/jayyy404/Corner-Detection",
     },
     {
       title: "Sigequest",
       description:
         "A job listing and recruitment mobile app focused on small-scale and part time gigs.",
       tech: ["Flutter", "Dart", "Firebase"],
+      link: "https://github.com/jayyy404/Job-Search-App",
     },
     {
       title: "WVSU Coop Website",
       description:
         "A modern redesign of the WVSU Cooperative website for improved accessibility and layout.",
       tech: ["React", "Tailwind CSS", "Firebase"],
+      link: "https://github.com/jayyy404/WVSU_Coop",
+    },
+    {
+      title: "Parking Occupancy Detection System",
+      description:
+        "A computer vision-based system that automatically detects and monitors parking space occupancy in real-time using video feeds. ",
+      tech: ["Python", "OpenCV"],
+      link: "https://github.com/jayyy404/Parking-Occupancy-Detection-",
+    },
+    {
+      title: "Newton-Raphson Method Visualizer",
+      description:
+        "An interactive application that implements the Newton's method for optimization. ",
+      tech: ["Python", "Streamlit"],
+      link: "https://newton-raphson-optimization.streamlit.app/",
     },
   ]
 
@@ -156,37 +177,45 @@ export default function Portfolio() {
   <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-albaster to-gray-100
                   dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
 
-  {/* Image container */}
+  {/* Image container - Circular */}
   <div
     className="image-container z-10
-      bg-white/80 dark:bg-gray-800/70 backdrop-blur-sm p-2 rounded-xl shadow-2xl dark:shadow-gray-900/60
-      w-48 h-48 md:w-64 md:h-64"
+      bg-white/80 dark:bg-gray-800/70 backdrop-blur-sm p-2 rounded-full shadow-2xl dark:shadow-gray-900/60
+      w-72 h-72 md:w-96 md:h-96 mb-8 md:mb-12"
     style={{
       position: "static",
-      marginBottom: "1.5rem",
       transform: "none",
     }}
   >
     <img
       src="/image.jpg"
       alt="John Paul Sapasap"
-      className="w-full h-full rounded-lg object-cover"
+      className="w-full h-full rounded-full object-cover"
     />
   </div>
 
   {/* Text container */}
-  <div className="relative z-10 max-w-xl text-center px-4 sm:px-0">
-    <h1 className="text-4xl sm:text-6xl md:text-8xl font-extralight text-transparent bg-clip-text
-                   bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900
-                   dark:from-gray-100 dark:via-gray-300 dark:to-gray-100 mb-4 tracking-tight">
-      Portfolio
-    </h1>
-
-    <p className="mt-4 sm:mt-10 text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-light tracking-wide">
-      John&nbsp;Paul&nbsp;Sapasap
+  <div className="relative z-10 max-w-2xl text-center px-4 sm:px-0">
+    {/* Eyebrow text */}
+    <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 font-light tracking-widest uppercase mb-4 md:mb-6">
+      Welcome to my portfolio
     </p>
 
-    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-16 h-0.5
+    {/* Main heading - Hero name */}
+    <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-transparent bg-clip-text
+                   bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900
+                   dark:from-gray-100 dark:via-gray-300 dark:to-gray-100 mb-6 md:mb-8 tracking-tight leading-tight">
+      John Paul Sapasap
+    </h1>
+
+    {/* Brief description */}
+    <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+      Dedicated and enthusiastic Computer Science student majoring in Artificial Intelligence at West Visayas State University.
+      Passionate about developing innovative mobile and web applications, with a growing focus on AI-driven systems.
+    </p>
+    
+
+    <div className="mt-8 md:mt-10 w-16 h-0.5 mx-auto
                     bg-gradient-to-r from-transparent via-blue-500 dark:via-blue-400 to-transparent" />
   </div>
 
@@ -211,9 +240,12 @@ export default function Portfolio() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <div
+              <a
                 key={index}
-                className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-8 shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 dark:hover:shadow-gray-900/70 transition-all duration-500 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-200/50 dark:hover:border-blue-400/50 relative overflow-hidden"
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-8 shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 dark:hover:shadow-gray-900/70 transition-all duration-500 border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-200/50 dark:hover:border-blue-400/50 relative overflow-hidden cursor-pointer"
               >
                 {/* Subtle hover gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-purple-50/0 dark:from-blue-900/0 dark:to-purple-900/0 group-hover:from-blue-50/30 group-hover:to-purple-50/30 dark:group-hover:from-blue-900/20 dark:group-hover:to-purple-900/20 transition-all duration-500 rounded-xl" />
@@ -234,7 +266,7 @@ export default function Portfolio() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -418,6 +450,12 @@ export default function Portfolio() {
           achievement: "Participant",
           date: "2024",
         },
+         {
+          title: "Westnovation Hackathon, WVSU|CICT",
+          achievement: "Finalist",
+          project: "Cervis - a mobile based app for pap smear analysis using hybrid deep learning model",
+          date: "2025",
+        },
       ].map((hackathon, index) => (
         <div
           key={index}
@@ -454,13 +492,35 @@ export default function Portfolio() {
 
               <div className="space-y-4 text-gray-600 dark:text-gray-400">
                 <p>
-                  <span className="font-medium">Email:</span> johnpaulsapasap27@gmail.com
+                  <span className="font-medium">Email:</span>{" "}
+                  <a
+                    href="mailto:johnpaulsapasap27@gmail.com"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-300"
+                  >
+                    johnpaulsapasap27@gmail.com
+                  </a>
                 </p>
                 <p>
-                  <span className="font-medium">LinkedIn:</span> www.linkedin.com/in/john-paul-sapasap-1a21542b3
+                  <span className="font-medium">LinkedIn:</span>{" "}
+                  <a
+                    href="https://www.linkedin.com/in/john-paul-sapasap-1a21542b3/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-300"
+                  >
+                    john-paul-sapasap-1a21542b3
+                  </a>
                 </p>
                 <p>
-                  <span className="font-medium">GitHub:</span> https://github.com/jayyy404
+                  <span className="font-medium">GitHub:</span>{" "}
+                  <a
+                    href="https://github.com/jayyy404"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-300"
+                  >
+                    jayyy404
+                  </a>
                 </p>
                 <p>
                   <span className="font-medium">Location:</span> Iloilo City, Philippines
