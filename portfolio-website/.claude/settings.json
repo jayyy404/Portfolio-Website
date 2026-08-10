@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(corepack pnpm add framer-motion)",
+      "PowerShell(npx tsc --noEmit)",
+      "PowerShell(Get-Command chromium-cli -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; corepack pnpm dev)",
+      "Bash(timeout 60 bash -c 'until curl -sf http://localhost:3000 >/dev/null 2>&1; do sleep 1; done && echo READY')",
+      "Bash(curl -s http://localhost:3000 -o /tmp/home.html -w \"HTTP %{http_code}\\\\n\")",
+      "Read(//tmp/**)",
+      "Bash(grep -o \"John Paul Sapasap\\\\|Something went wrong\\\\|Application error\" /tmp/home.html | sort -u)",
+      "Bash(curl -s http://localhost:3000 -o /tmp/home2.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(wc -l /c/Users/jepoy/AppData/Local/Temp/claude/c--Users-jepoy-Desktop-Portfolio-Website-portfolio-website/21abb71a-2167-4b27-8269-4a286efeb0e7/tasks/b2jua2pgh.output)",
+      "Read(//c/Users/jepoy/AppData/Local/Temp/claude/c--Users-jepoy-Desktop-Portfolio-Website-portfolio-website/21abb71a-2167-4b27-8269-4a286efeb0e7/tasks/**)"
+    ]
+  }
+}

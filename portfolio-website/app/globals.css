@@ -2,13 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .font-display {
+    font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -93,67 +100,3 @@ body {
   }
 }
 
-@media (orientation: landscape) and (min-width: 640px) {
-  #home {
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  #home .image-container {
-    position: absolute !important;
-    left: 2.5rem !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    margin-bottom: 0 !important;
-    width: 16rem !important; 
-    height: 16rem !important;
-  }
-}
-
-
-@media (orientation: portrait) {
-  #home {
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  #home .image-container {
-    position: static !important;
-    width: 12rem !important;
-    height: 12rem !important;
-    margin-bottom: 1.5rem !important;
-    transform: none !important;
-  }
-}
-
-.responsive-nav {
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-  justify-content: flex-start; 
-}
-
-
-@media (orientation: portrait) {
-  .responsive-nav {
-    max-width: 90vw; 
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    gap: 1rem; 
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-
-  .responsive-nav button {
-    font-size: 0.8rem;
-  }
-
-  .responsive-nav button[aria-label="Toggle dark mode"] svg {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-}
