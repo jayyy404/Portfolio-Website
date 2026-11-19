@@ -1,115 +1,93 @@
 "use client"
 
-import { Award, Medal, Trophy, Users } from "lucide-react"
 import { academicHonors, affiliations, certificates, hackathons } from "@/lib/portfolio-data"
-import { Reveal } from "./reveal"
+import { Icon } from "./icons"
+import { SectionHead, Tag, Tile, type Tone } from "./tile"
 
-function SubHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-5">
-      {children}
-    </h3>
-  )
+const placeTone = (achievement: string): Tone => {
+  if (/place/i.test(achievement)) return "sand"
+  if (/finalist/i.test(achievement)) return "clay"
+  return "mist"
+}
+
+function Label({ children }: { children: React.ReactNode }) {
+  return <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">{children}</p>
 }
 
 export function Achievements() {
   return (
-    <section id="achievements" className="py-20 px-6 bg-albaster dark:bg-gray-800">
-      <div className="max-w-4xl mx-auto">
-        <Reveal>
-          <h2 className="font-display text-4xl md:text-5xl font-extralight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 dark:from-gray-100 dark:via-gray-400 dark:to-gray-100 mb-16 text-center tracking-wide">
-            Achievements
-          </h2>
-        </Reveal>
+    <section id="achievements" className="mt-24 sm:mt-32">
+      <SectionHead eyebrow="04 / Achievements" title={<>Recognition &amp; <span className="italic">learning</span></>} />
 
-        <div className="mb-14">
-          <Reveal>
-            <SubHeading>Academic Honors</SubHeading>
-          </Reveal>
-          <div className="space-y-4">
-            {academicHonors.map((honor, index) => (
-              <Reveal key={honor.title} delay={index * 0.08}>
-                <div className="group flex items-center gap-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl dark:shadow-gray-900/50 dark:hover:shadow-gray-900/70 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-yellow-200/50 dark:hover:border-yellow-400/50">
-                  <div className="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                    <Medal className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{honor.title}</h4>
-                    <p className="text-gray-600 dark:text-gray-400">{honor.date}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-6 lg:grid-cols-12">
+        {/* Academic honors */}
+        <Tile className="md:col-span-6 lg:col-span-4">
+          <Label>Academic honors</Label>
+          {academicHonors.map((h) => (
+            <div key={h.title} className="mt-auto pt-10">
+              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-sand-bg text-sand-fg">
+                <Icon name="trophy" className="h-5 w-5" />
+              </div>
+              <p className="font-serif text-4xl leading-[1.05] tracking-[-0.02em] text-ink sm:text-5xl">{h.title}</p>
+              <p className="mt-3 text-sm text-ink">{h.school}</p>
+              <p className="mt-1 font-mono text-xs text-mute">{h.date}</p>
+            </div>
+          ))}
+        </Tile>
 
-        <div className="mb-14">
-          <Reveal>
-            <SubHeading>Hackathons &amp; Competitions</SubHeading>
-          </Reveal>
-          <div className="space-y-4">
-            {hackathons.map((hackathon, index) => (
-              <Reveal key={hackathon.title} delay={index * 0.08}>
-                <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl dark:shadow-gray-900/50 dark:hover:shadow-gray-900/70 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-purple-200/50 dark:hover:border-purple-400/50">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-3">
-                      <Trophy className="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
-                      {hackathon.title}
-                    </h4>
-                    <span className="text-sm text-gray-500 dark:text-gray-400 mt-1 md:mt-0">{hackathon.date}</span>
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300 font-medium mb-2">{hackathon.achievement}</p>
-                  {hackathon.project && (
-                    <p className="text-gray-600 dark:text-gray-400">Project: {hackathon.project}</p>
-                  )}
+        {/* Hackathons */}
+        <Tile delay={0.06} className="md:col-span-6 lg:col-span-8">
+          <Label>Hackathons &amp; competitions</Label>
+          <ul className="mt-5">
+            {hackathons.map((h) => (
+              <li
+                key={h.title}
+                className="grid gap-x-6 gap-y-2 border-b border-line/10 py-5 first:pt-2 last:border-b-0 last:pb-0 sm:grid-cols-[1fr_auto]"
+              >
+                <div>
+                  <h3 className="text-[15px] font-medium leading-snug text-ink text-pretty">{h.title}</h3>
+                  {h.project && <p className="mt-1.5 text-sm leading-relaxed text-mute text-pretty">{h.project}</p>}
                 </div>
-              </Reveal>
+                <div className="flex items-center gap-3 sm:flex-col sm:items-end sm:gap-2">
+                  <Tag tone={placeTone(h.achievement)}>{h.achievement}</Tag>
+                  <span className="font-mono text-xs text-mute tabular-nums">{h.date}</span>
+                </div>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </Tile>
 
-        <div className="mb-14">
-          <Reveal>
-            <SubHeading>Certifications</SubHeading>
-          </Reveal>
-          <div className="space-y-4">
-            {certificates.map((cert, index) => (
-              <Reveal key={cert.title} delay={index * 0.08}>
-                <div className="group flex items-start gap-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl dark:shadow-gray-900/50 dark:hover:shadow-gray-900/70 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-purple-200/50 dark:hover:border-purple-400/50">
-                  <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                    <Award className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">{cert.title}</h4>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {cert.issuer} • {cert.date}
-                    </p>
-                  </div>
+        {/* Certifications */}
+        <Tile delay={0.04} className="md:col-span-3 lg:col-span-6">
+          <Label>Certifications</Label>
+          <ul className="mt-5">
+            {certificates.map((c) => (
+              <li key={c.title} className="flex items-start justify-between gap-4 border-b border-line/10 py-4 first:pt-2 last:border-b-0 last:pb-0">
+                <div>
+                  <h3 className="text-[15px] font-medium text-ink">{c.title}</h3>
+                  <p className="mt-1 text-sm text-mute">{c.issuer}</p>
                 </div>
-              </Reveal>
+                <span className="shrink-0 font-mono text-xs text-mute">{c.date}</span>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </Tile>
 
-        <div>
-          <Reveal>
-            <SubHeading>Affiliations</SubHeading>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {affiliations.map((affiliation, index) => (
-              <Reveal key={affiliation.name} delay={index * 0.08}>
-                <div className="flex items-start gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-5 shadow-md dark:shadow-gray-900/40 border border-gray-200/50 dark:border-gray-700/50">
-                  <Users className="w-4 h-4 text-cyan-600 dark:text-cyan-400 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">{affiliation.name}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{affiliation.description}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-0.5">{affiliation.date}</p>
-                  </div>
+        {/* Affiliations */}
+        <Tile delay={0.08} className="md:col-span-3 lg:col-span-6">
+          <Label>Affiliations</Label>
+          <ul className="mt-5">
+            {affiliations.map((a) => (
+              <li key={a.name} className="flex items-start justify-between gap-4 border-b border-line/10 py-4 first:pt-2 last:border-b-0 last:pb-0">
+                <div>
+                  <h3 className="text-[15px] font-medium text-ink">{a.name}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-mute text-pretty">{a.description}</p>
                 </div>
-              </Reveal>
+                <span className="shrink-0 font-mono text-xs text-mute">{a.date}</span>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </Tile>
       </div>
     </section>
   )

@@ -1,57 +1,101 @@
 "use client"
 
-import { X } from "lucide-react"
+import { useMemo } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { projects } from "@/lib/portfolio-data"
+import { Icon } from "./icons"
 import { ProjectCard } from "./project-card"
-import { Reveal } from "./reveal"
+import { SectionHead } from "./tile"
 
 interface ProjectsProps {
   activeTech: string | null
+  onSelectTech: (tech: string) => void
   onClearFilter: () => void
 }
 
-export function Projects({ activeTech, onClearFilter }: ProjectsProps) {
+// Asymmetric rhythm for the unfiltered grid (each group of rows sums to 12).
+const bentoSpans = [
+  "lg:col-span-7",
+  "lg:col-span-5",
+  "lg:col-span-4",
+  "lg:col-span-4",
+  "lg:col-span-4",
+  "lg:col-span-5",
+  "lg:col-span-7",
+  "lg:col-span-4",
+  "lg:col-span-4",
+  "lg:col-span-4",
+  "lg:col-span-6",
+  "lg:col-span-6",
+]
+
+export function Projects({ activeTech, onSelectTech, onClearFilter }: ProjectsProps) {
+  const filterOptions = useMemo(() => {
+    const counts = new Map<string, number>()
+    projects.forEach((p) => p.tech.forEach((t) => counts.set(t, (counts.get(t) ?? 0) + 1)))
+    const common = [...counts.entries()]
+      .filter(([, n]) => n >= 2)
+      .sort((a, b) => b[1] - a[1])
+      .map(([t]) => t)
+    if (activeTech && !common.includes(activeTech)) common.push(activeTech)
+    return common
+  }, [activeTech])
+
+  const visible = activeTech ? projects.filter((p) => p.tech.includes(activeTech)) : projects
+
   return (
-    <section id="projects" className="min-h-screen py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <h2 className="font-display text-4xl md:text-5xl font-extralight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 dark:from-gray-100 dark:via-gray-400 dark:to-gray-100 mb-6 text-center tracking-wide">
-            Projects
-          </h2>
-        </Reveal>
+    <section id="projects" className="mt-24 sm:mt-32">
+      <SectionHead
+        eyebrow="03 / Projects"
+        title={<>Selected <span className="italic">work</span></>}
+        aside={
+          <p className="font-mono text-xs text-mute tabular-nums" aria-live="polite">
+            Showing {visible.length} of {projects.length}
+          </p>
+        }
+      />
 
-        <AnimatePresence>
-          {activeTech && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="flex justify-center mb-10"
+      <div className="scrollbar-none -mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+        <button
+          onClick={onClearFilter}
+          aria-pressed={activeTech === null}
+          className={`inline-flex h-9 shrink-0 items-center rounded-full px-4 text-sm transition-all duration-200 active:scale-[0.97] ${
+            activeTech === null ? "bg-ink text-canvas" : "border border-line/15 text-mute hover:text-ink"
+          }`}
+        >
+          All
+        </button>
+        {filterOptions.map((tech) => {
+          const selected = activeTech === tech
+          return (
+            <button
+              key={tech}
+              onClick={() => onSelectTech(tech)}
+              aria-pressed={selected}
+              className={`inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm transition-all duration-200 active:scale-[0.97] ${
+                selected ? "bg-ink text-canvas" : "border border-line/15 text-mute hover:text-ink"
+              }`}
             >
-              <button
-                onClick={onClearFilter}
-                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm font-medium border border-blue-300 dark:border-blue-500 hover:bg-blue-200 dark:hover:bg-blue-900/70 transition-colors duration-300"
-              >
-                Filtering by <span className="font-semibold">{activeTech}</span>
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {tech}
+              {selected && <Icon name="close" className="h-3 w-3" />}
+            </button>
+          )
+        })}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+      <motion.div layout className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-6 lg:grid-cols-12">
+        <AnimatePresence mode="popLayout">
+          {visible.map((project, i) => (
             <ProjectCard
               key={project.title}
               project={project}
-              index={index}
+              index={i}
+              span={activeTech ? "lg:col-span-4" : bentoSpans[i % bentoSpans.length]}
               activeTech={activeTech}
-              dimmed={activeTech !== null && !project.tech.includes(activeTech)}
             />
           ))}
-        </div>
-      </div>
+        </AnimatePresence>
+      </motion.div>
     </section>
   )
 }

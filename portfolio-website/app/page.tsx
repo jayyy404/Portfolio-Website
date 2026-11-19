@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { MotionConfig } from "framer-motion"
 import { ScrollProgress } from "@/components/portfolio/scroll-progress"
 import { Nav } from "@/components/portfolio/nav"
 import { Hero } from "@/components/portfolio/hero"
@@ -18,15 +19,25 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
+    <MotionConfig reducedMotion="user">
+      <div className="ambient" aria-hidden="true" />
+      <div className="grain" aria-hidden="true" />
       <ScrollProgress />
+
+      <main className="relative z-10 mx-auto w-full max-w-[1200px] px-4 pb-36 pt-6 sm:px-6 sm:pt-8">
+        <Hero />
+        <Experience />
+        <Skills activeTech={activeTech} onSelectTech={handleSelectTech} />
+        <Projects
+          activeTech={activeTech}
+          onSelectTech={handleSelectTech}
+          onClearFilter={() => setActiveTech(null)}
+        />
+        <Achievements />
+        <Contact />
+      </main>
+
       <Nav />
-      <Hero />
-      <Experience />
-      <Projects activeTech={activeTech} onClearFilter={() => setActiveTech(null)} />
-      <Skills activeTech={activeTech} onSelectTech={handleSelectTech} />
-      <Achievements />
-      <Contact />
-    </div>
+    </MotionConfig>
   )
 }

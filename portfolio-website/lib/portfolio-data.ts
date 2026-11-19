@@ -95,6 +95,13 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
+    role: "Junior Associate Software Engineer",
+    org: "Prometheus",
+    location: "Iloilo City",
+    date: "2026",
+    bullets: [],
+  },
+  {
     role: "Software Developer — Intern",
     org: "Prometheus",
     location: "Iloilo City",
@@ -194,7 +201,9 @@ export const hackathons: Hackathon[] = [
   },
 ]
 
-export const academicHonors = [{ title: "Silver Academic Awardee", date: "2023 - 2025" }]
+export const academicHonors = [
+  { title: "Magna Cum Laude", school: "West Visayas State University", date: "2026" },
+]
 
 export interface Affiliation {
   name: string

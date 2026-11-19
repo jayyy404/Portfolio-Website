@@ -1,24 +1,46 @@
-import type { Metadata } from 'next'
-import { Inter, Space_Grotesk } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
-const inter = Inter({
+const geist = Geist({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-geist',
   display: 'swap',
 })
 
-const spaceGrotesk = Space_Grotesk({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-geist-mono',
+  display: 'swap',
+})
+
+const instrument = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Sapasap Portfolio',
-  description: 'This is the portfolio of Sapasap, showcasing projects and skills.',
-  generator: 'Next.js',
+  title: 'John Paul Sapasap — Software Developer',
+  description:
+    'Portfolio of John Paul Sapasap: mobile and web applications, with a growing focus on AI-driven systems.',
+  openGraph: {
+    title: 'John Paul Sapasap — Software Developer',
+    description: 'Mobile and web applications, with a growing focus on AI-driven systems.',
+    type: 'website',
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F3F0E9' },
+    { media: '(prefers-color-scheme: dark)', color: '#151311' },
+  ],
 }
 
 export default function RootLayout({
@@ -28,8 +50,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+      <body className={`${geist.variable} ${geistMono.variable} ${instrument.variable} font-sans`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
       </body>

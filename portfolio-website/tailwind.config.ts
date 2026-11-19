@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss"
 
+const rgb = (name: string) => `rgb(var(--${name}) / <alpha-value>)`
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,9 +13,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: '#FFFADA',
-        pearl: '#FBFCF8',
-        albaster: '#FEF9F3',
+        canvas: rgb("canvas"),
+        surface: rgb("surface"),
+        line: rgb("line"),
+        ink: rgb("ink"),
+        mute: rgb("mute"),
+        clay: { DEFAULT: rgb("accent"), bg: rgb("clay-bg"), fg: rgb("clay-fg") },
+        sky: { bg: rgb("sky-bg"), fg: rgb("sky-fg") },
+        sage: { bg: rgb("sage-bg"), fg: rgb("sage-fg") },
+        lilac: { bg: rgb("lilac-bg"), fg: rgb("lilac-fg") },
+        mist: { bg: rgb("mist-bg"), fg: rgb("mist-fg") },
+        sand: { bg: rgb("sand-bg"), fg: rgb("sand-fg") },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -37,7 +47,7 @@ const config: Config = {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
+          DEFAULT: "hsl(var(--accent-ui))",
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
@@ -61,22 +71,18 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+        sans: ["var(--font-geist)", "system-ui", "sans-serif"],
+        serif: ["var(--font-instrument)", "Georgia", "serif"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       keyframes: {
-        "gradient-shift": {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-        },
-        "fade-in-up": {
-          "0%": { opacity: "0", transform: "translateY(16px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        "soft-ping": {
+          "0%": { transform: "scale(1)", opacity: "0.5" },
+          "80%, 100%": { transform: "scale(2.4)", opacity: "0" },
         },
       },
       animation: {
-        "gradient-shift": "gradient-shift 8s ease infinite",
-        "fade-in-up": "fade-in-up 0.6s ease-out forwards",
+        "soft-ping": "soft-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
     },
   },

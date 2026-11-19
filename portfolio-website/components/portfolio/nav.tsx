@@ -2,105 +2,115 @@
 
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
-import { motion, AnimatePresence } from "framer-motion"
-import { Moon, Sun } from "lucide-react"
-import { navItems } from "@/lib/portfolio-data"
+import { LayoutGroup, motion } from "framer-motion"
+import { Icon, type IconName } from "./icons"
+
+const items: { id: string; label: string; icon: IconName }[] = [
+  { id: "home", label: "Home", icon: "home" },
+  { id: "experience", label: "Experience", icon: "briefcase" },
+  { id: "skills", label: "Skills", icon: "stack" },
+  { id: "projects", label: "Projects", icon: "grid" },
+  { id: "achievements", label: "Awards", icon: "trophy" },
+  { id: "contacts", label: "Contact", icon: "at" },
+]
 
 export function Nav() {
-  const [activeSection, setActiveSection] = useState("home")
+  const [active, setActive] = useState("home")
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => setMounted(true), [])
 
+  // Track the section nearest the middle of the viewport.
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "experience", "projects", "skills", "achievements", "contacts"]
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id)
         }
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    handleScroll()
-    return () => window.removeEventListener("scroll", handleScroll)
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    )
+    items.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
-  }
-
   const isDark = mounted && resolvedTheme === "dark"
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark")
+
+  // Press "T" to flip the theme.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      const target = e.target as HTMLElement | null
+      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return
+      if (e.key.toLowerCase() === "t") setTheme(isDark ? "light" : "dark")
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [isDark, setTheme])
+
+  const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
 
   return (
-    <motion.nav
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 z-50 p-2 md:p-6 w-full max-w-sm md:max-w-none md:w-auto"
-    >
-      <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full px-2 sm:px-3 md:px-6 py-1.5 md:py-3 shadow-lg border border-gray-200/50 dark:border-gray-700/50 mx-2 md:mx-0">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => scrollToSection(item.id)}
-            className={`relative text-[11px] sm:text-xs md:text-sm font-medium transition-colors duration-300 hover:text-blue-600 dark:hover:text-blue-400 px-0.5 sm:px-1 md:px-2 whitespace-nowrap ${
-              activeSection === item.id ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-300"
-            }`}
-          >
-            <span className="hidden sm:inline">{item.label}</span>
-            <span className="sm:hidden">{item.short}</span>
-            {activeSection === item.id && (
-              <motion.div
-                layoutId="nav-underline"
-                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-400 rounded-full"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </button>
-        ))}
+    <div className="pointer-events-none fixed inset-x-0 bottom-3 z-50 flex justify-center px-2 pb-[env(safe-area-inset-bottom)] sm:bottom-4 sm:px-3">
+      <motion.nav
+        aria-label="Primary"
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="scrollbar-none pointer-events-auto flex max-w-full items-center overflow-x-auto rounded-2xl p-1 sm:gap-0.5 sm:p-1.5 border border-line/10 bg-surface/80 backdrop-blur-xl"
+        style={{ boxShadow: "0 8px 30px -12px rgb(var(--line) / 0.25)" }}
+      >
+        <LayoutGroup>
+          {items.map((item) => {
+            const isActive = active === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => go(item.id)}
+                aria-label={item.label}
+                aria-current={isActive ? "true" : undefined}
+                className={`relative flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-xl text-[13px] lg:w-auto lg:px-3.5 font-medium transition-colors duration-200 active:scale-[0.97] ${
+                  isActive ? "text-canvas" : "text-mute hover:text-ink"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="dock-pill"
+                    className="absolute inset-0 rounded-xl bg-ink"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                )}
+                <Icon name={item.icon} className="relative z-10 h-[18px] w-[18px]" />
+                <span className="relative z-10 hidden lg:inline">{item.label}</span>
+              </button>
+            )
+          })}
+        </LayoutGroup>
+
+        <span className="mx-0.5 h-5 w-px shrink-0 bg-line/15 sm:mx-1" aria-hidden="true" />
 
         <button
-          onClick={() => setTheme(isDark ? "light" : "dark")}
-          className="p-1 md:p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 flex-shrink-0"
-          aria-label="Toggle dark mode"
+          onClick={toggleTheme}
+          aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          title="Toggle theme (T)"
+          className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-mute transition-colors duration-200 hover:bg-line/5 hover:text-ink active:scale-[0.95]"
         >
-          <AnimatePresence mode="wait" initial={false}>
-            {isDark ? (
-              <motion.span
-                key="sun"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="block"
-              >
-                <Sun className="w-3 h-3 md:w-4 md:h-4 text-yellow-500" />
-              </motion.span>
-            ) : (
-              <motion.span
-                key="moon"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="block"
-              >
-                <Moon className="w-3 h-3 md:w-4 md:h-4 text-gray-600" />
-              </motion.span>
-            )}
-          </AnimatePresence>
+          <motion.span
+            key={isDark ? "sun" : "moon"}
+            initial={{ rotate: -60, opacity: 0, scale: 0.7 }}
+            animate={{ rotate: 0, opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="block"
+          >
+            <Icon name={isDark ? "sun" : "moon"} className="h-[18px] w-[18px]" />
+          </motion.span>
         </button>
-      </div>
-    </motion.nav>
+      </motion.nav>
+    </div>
   )
 }
